@@ -5,7 +5,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
-  "workbench.iconTheme": "vscode-icons",
+  "workbench.iconTheme": "material-icon-theme",
   "terminal.integrated.scrollback": 100000,
-  "window.zoomLevel": 3
+  "window.zoomLevel": 0
 }

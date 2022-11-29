@@ -1,16 +1,3 @@
 {
-  "posts": [
-    {
-      "content": "A",
-      "id": 1
-    },
-    {
-      "content": "B",
-      "id": 2
-    },
-    {
-      "content": "C",
-      "id": 3
-    }
-  ]
+  "posts": []
 }

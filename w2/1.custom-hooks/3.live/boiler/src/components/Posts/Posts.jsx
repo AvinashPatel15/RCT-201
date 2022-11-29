@@ -12,33 +12,12 @@ import {
 import AddPost from "./AddPost";
 import Post from "./Post";
 import { getPosts } from "./posts.api";
+import useFetch from "../../hooks/useFetch";
 
 const Posts = () => {
   const toast = useToast();
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [data, setData] = useState([]);
 
-  const getData = async () => {
-    try {
-      setLoading(true);
-      let data = await getPosts();
-      setData(data);
-      setSuccess(true);
-    } catch (e) {
-      toast({
-        title: "Error Occurred while fetching data",
-        description: e.message,
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "top-right",
-      });
-      setSuccess(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { loading, error, data, setData, refresh } = useFetch(getPosts);
 
   const onAddPost = (post) => {
     setData([...data, post]);
@@ -47,23 +26,31 @@ const Posts = () => {
     setData(data.filter((p) => p.id !== id));
   };
 
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useEffect(()=>{
+    if(error){
+      toast({
+        title:"Error occurred while Fetching",
+        description:error,
+        status:"error",
+        duration: 3000,
+        isClosable:true,
+        position:"top-right"
+      })
+    }
+  })
 
   return (
     <Box>
       <Center my={2} gap={4}>
         <Heading>Posts</Heading>
-        <Button isLoading={loading} loadingText="Fetching..." onClick={getData}>
+        <Button isLoading={loading} loadingText="Fetching..." onClick={refresh}>
           Refresh
         </Button>
       </Center>
       <AddPost onAddPost={onAddPost} />
       {loading && <CircularProgress isIndeterminate color="green.300" />}
       <Flex direction="column" gap={2} my={2}>
-        {success &&
+        {data.length > 0 &&
           data.map((post) => (
             <Post key={post.id} {...post} onDelete={onDelete} />
           ))}

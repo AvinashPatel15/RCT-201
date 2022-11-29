@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { Box, Button, Flex, useToast } from "@chakra-ui/react";
 import { deletePost } from "./posts.api";
+import useDelayedFetch from "../../hooks/useDelayedFetch";
 
 const Post = ({ id, content, onDelete }) => {
   const toast = useToast();
+
+  const { loading, error, success, exec } = useDelayedFetch(deletePost)
+
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {

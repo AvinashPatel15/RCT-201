@@ -1,32 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { Box, Button, Center, Flex, Heading } from "@chakra-ui/react";
+import useStopwatch from "../hooks/useStopwatch";
 
 const Stopwatch1 = () => {
-  const [time, setTime] = useState(0);
-  const timerId = useRef(null);
-  const start = () => {
-    if (!timerId.current) {
-      timerId.current = setInterval(() => {
-        setTime((prevValue) => prevValue + 1);
-      }, 1000);
-    }
-  };
-  const pause = () => {
-    clearInterval(timerId.current);
-    timerId.current = null;
-  };
-  const reset = () => {
-    clearInterval(timerId.current);
-    timerId.current = null;
-    setTime(0);
-  };
 
-  const addSeconds = (count) => {
-    setTime((prevValue) => prevValue + count);
-  };
-  useEffect(() => {
-    return reset;
-  }, []);
+  const { time, start, pause, reset, addSeconds } = useStopwatch();
+
   return (
     <Box border={"1px solid black"} borderRadius={4} m={2} p={2}>
       <Center>
